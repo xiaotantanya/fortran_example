@@ -50,7 +50,7 @@ use, intrinsic :: iso_C_binding
 
 include 'fftw3-mpi.f03'
 ```
-In addition, some variables are defined for boundary calculation in the module. These parameters have little to do with calculating the Fourier transform.
+In addition, some variables are defined for boundary calculation in the module. These parameters have little to do with calculating the Fourier transform.`xxx(add more description)`
 ```fortran
   ! fitted related parameters
   real(kind=rdp):: am11, am12, am13, am14
@@ -64,20 +64,20 @@ In addition, some variables are defined for boundary calculation in the module. 
 ```
 ### 1.1 type_mupro_FFTContext
 The member properties of this type are as follows:
-| Variable | Type     | Meaning                                                |
-| :------: | :---:    | :----------------------------------------------------- |
-|   Rn1    | int32    | Size of real space x dimension on the current core     |
-|   Rn2    | int32    | Size of real space y dimension on the current core     |
-|   Rn3    | int32    | Size of real space z dimension on the current core     |
-|   Cn1    | int32    | Size of fourier space x dimension on the current core  |
-|   Cn2    | int32    | Size of fourier space y dimension on the current core  |
-|   Cn3    | int32    | Size of fourier space z dimension on the current core  |
-|   Hn1    | int32    | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
-|   Hn2    | int32    | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
-|  lstart  | int32    | Starting index of the data along x on the current core |
-|  Rn1All  | int32(:) | xxx |
-|lstartRAll| int32(:) | xxx |
-| kvec|int32 pointer(:,:,:,:)|xxx |
+| Variable | Type                  | Meaning                                                                       |
+| :------: | :-------------------: | :---------------------------------------------------------------------------: |
+|   Rn1    | int32                 | Size of real space x dimension on the current core                            |
+|   Rn2    | int32                 | Size of real space y dimension on the current core                            |
+|   Rn3    | int32                 | Size of real space z dimension on the current core                            |
+|   Cn1    | int32                 | Size of fourier space x dimension on the current core                         |
+|   Cn2    | int32                 | Size of fourier space y dimension on the current core                         |
+|   Cn3    | int32                 | Size of fourier space z dimension on the current core                         |
+|   Hn1    | int32                 | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
+|   Hn2    | int32                 | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
+|  lstart  | int32                 | Starting index of the data along x on the current core                        |
+|  Rn1All  | int32(:)              | `xxx`                                                                         |
+|lstartRAll| int32(:)              | `xxx`                                                                         |
+| kvec     | int32 pointer(:,:,:,:)| `xxx`                                                                         |
 
 ```{important}
 MPI slicing in FFT only happens along the last dimension of Fortran array, so to have such slicing happens along the x direction, we have to define
@@ -93,17 +93,17 @@ Initialize cluster distributed FFT, so that we can use forward and backward func
 ```{important}
 You must call this fft setup subroutine after [mupro_size_setup](base#mupro_size_setup) and [mupro_mpi_setup](base#mupro_mpi_setup) but before all other subroutines that involves 3D data.
 ```
-| Argument |                      Type(Intent)                      | Meaning                                              |
-| :------: | :----------------------------------------------------: | :--------------------------------------------------- |
-| context  | [type_mupro_FFTContext(OUT)](#11-type_mupro_fftcontext)   | The simulation size you want to have for the solvers |
+| Argument |                      Type(Intent)                       | Meaning                                              |
+| :------: | :-----------------------------------------------------: | :--------------------------------------------------- |
+| context  | [type_mupro_FFTContext(OUT)](#11-type_mupro_fftcontext) | The simulation size you want to have for the solvers |
 ### 1.3 mupro_fitted_derivative(u, u_prime, ord, der)
 Calculate derivate of 3D data. This function can be called in both thin film and bulk cases. In the thin film case, due to
 the sudden change in data across the film interface and surface, a special fitting step is included, which is also why the
 subroutine is called mupro_fitted_derivative.
 | Argument |                      Type(Intent)                      | Meaning                                              |
 | :------: | :----------------------------------------------------: | :--------------------------------------------------- |
-| u        | real(kind=rdp),dimension(Rn3,Rn2,Rn1)(IN)                    | Data in real space                                   |
-| u_prime  | real(kind=rdp),dimension(3,Rn3,Rn2,Rn1)(OUT)                   | Derivative in real space, in the order of $\frac{d}{dx}$, $\frac{d}{dy}$, $\frac{d}{dz}$ |
+| u        | real(kind=rdp),dimension(Rn3,Rn2,Rn1)(IN)              | Data in real space                                   |
+| u_prime  | real(kind=rdp),dimension(3,Rn3,Rn2,Rn1)(OUT)           | Derivative in real space, in the order of $\frac{d}{dx}$, $\frac{d}{dy}$, $\frac{d}{dz}$ |
 | ord      | integer(kind=isp)(IN)                                  | Derivative in real space, in the order of $\frac{d}{dx}$, $\frac{d}{dy}$, $\frac{d}{dz}$  |
 | der      | integer(kind=isp)(IN)                                  | The direction to calculate derivative, 1: only $\frac{d}{dx}$, 2: only $\frac{d}{dy}$, 3: only $\frac{d}{dz}$, 4: all derivates, 5: $\frac{d}{dx}$ and $\frac{d}{dy}$   |
 
@@ -113,9 +113,9 @@ the sudden change in data across the film interface and surface, a special fitti
 subroutine is called mupro_fitted_curvature.
 | Argument |                      Type(Intent)                      | Meaning                                              |
 | :------: | :----------------------------------------------------: | :--------------------------------------------------- |
-| u        | real(kind=rdp),dimension(Rn3,Rn2,Rn1)(IN)                    | Data in real space                                                  |
-| u_prime  | real(kind=rdp),dimension(6,Rn3,Rn2,Rn1)(OUT)                   | Curvature in real space, in the order of $\frac{d^2}{dx^2}$, $\frac{d^2}{dy^2}$, $\frac{d^2}{dz^2}$, $\frac{d^2}{dydz}$ , $\frac{d^2}{dxdz}$, $\frac{d^2}{dxdy}$                                                  |
-| ord      | integer(kind=isp)(IN)                                  | Order for the fitting along z direction in the thin film case, you can choose from 0 to 4                                                  |
+| u        | real(kind=rdp),dimension(Rn3,Rn2,Rn1)(IN)              | Data in real space                                   |
+| u_prime  | real(kind=rdp),dimension(6,Rn3,Rn2,Rn1)(OUT)           | Curvature in real space, in the order of $\frac{d^2}{dx^2}$, $\frac{d^2}{dy^2}$, $\frac{d^2}{dz^2}$, $\frac{d^2}{dydz}$ , $\frac{d^2}{dxdz}$, $\frac{d^2}{dxdy}$ |
+| ord      | integer(kind=isp)(IN)                                  | Order for the fitting along z direction in the thin film case, you can choose from 0 to 4 |
 | der      | integer(kind=isp)(INOUT)                               | The direction to calculate Curvature, 1 for $\frac{d^2}{dxdy}$, 2 for $\frac{d^2}{dxdz}$, 4 for $\frac{d^2}{dydz}$, 8 for $\frac{d^2}{dz^2}$, 16 for $\frac{d^2}{dy^2}$, 32 for $\frac{d^2}{dx^2}$. To request multiple second derivatives these numbers should be added together                                                  |
 ### 1.5 mupro_fft_backward(fwdk, fwd) && backward_mpi(fwdk, fwd)
 Backward fft from fourier space to real space in three dimension
@@ -179,19 +179,19 @@ end module
 ```
 ### 2.1 type_FFTDoubleSizeContext
 Type type_FFTDoubleSizeContext extends type_FFTContext.The member properties of this type are as follows:
-| Variable | Type  | Meaning                                                |
-| :------: | :---: | :----------------------------------------------------- |
-|   Rn1_doubleSize    | int32 | Size of real space x dimension on the current core     |
-|   Rn2_doubleSize    | int32 | Size of real space y dimension on the current core     |
-|   Rn3_doubleSize    | int32 | Size of real space z dimension on the current core     |
-|   Cn1_doubleSize    | int32 | Size of fourier space x dimension on the current core  |
-|   Cn2_doubleSize    | int32 | Size of fourier space y dimension on the current core  |
-|   Cn3_doubleSize    | int32 | Size of fourier space z dimension on the current core  |
-|  lstart_doubleSize  | int32 | Starting index of the data along x on the current core |
-|  Hn1_doubleSize     | int32 | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
-|  Hn2_doubleSize     | int32 | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
-|  Rn1All_doubleSize  | int32(:) | xxx |
-|  lstartRall_doubleSize  | int32(:) | xxx |
+| Variable                | Type         | Meaning                                                                       |
+| :---------------------: | :----------: | :---------------------------------------------------------------------------: |
+|  Rn1_doubleSize         | int32        | Size of real space x dimension on the current core                            |
+|  Rn2_doubleSize         | int32        | Size of real space y dimension on the current core                            |
+|  Rn3_doubleSize         | int32        | Size of real space z dimension on the current core                            |
+|  Cn1_doubleSize         | int32        | Size of fourier space x dimension on the current core                         |
+|  Cn2_doubleSize         | int32        | Size of fourier space y dimension on the current core                         |
+|  Cn3_doubleSize         | int32        | Size of fourier space z dimension on the current core                         |
+|  lstart_doubleSize      | int32        | Starting index of the data along x on the current core                        |
+|  Hn1_doubleSize         | int32        | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
+|  Hn2_doubleSize         | int32        | Dimension sizes for 2D-transform arrays.  They should be sized f(Rn3,Hn2,Hn1) |
+|  Rn1All_doubleSize      | int32(:)     | `xxx`                                                                         |
+|  lstartRall_doubleSize  | int32(:)     | `xxx`                                                                         |
 
 
 ### 2.2 fft_setup_doubleSize(context)
@@ -199,21 +199,21 @@ Initialize cluster distributed FFT, so that we can use forward and backward func
 ```{important}
 You must call this fft setup subroutine after [mupro_size_setup](base#mupro_size_setup) and [mupro_mpi_setup](base#mupro_mpi_setup) but before all other subroutines that involves 3D data.
 ```
-| Arguments|Type(Intent)|Meaning|
-|:--:|:--:|:--:|
-|context|[type_FFTDoubleSizeContext(OUT)](#21-type_fftdoublesizecontext)|The simulation size you want to have for the solvers|
+|  Arguments| Type(Intent)                                                     | Meaning                                             |
+| :-------: | :--------------------------------------------------------------: | :-------------------------------------------------: |
+|context    | [type_FFTDoubleSizeContext(OUT)](#21-type_fftdoublesizecontext)  | The simulation size you want to have for the solvers|
 ### 2.3 forward_mpi_doubleSize(fwdx2,fwdx2k)
 Higher accuracy forward FFT from real space to  Fourier space in three dimension.
-| Argument |                      Type(Intent)                      | Meaning                                              |
-| :------: | :----------------------------------------------------: | :--------------------------------------------------- |
-| fwdx2      | real(kind=rdp),dimension(Rn3_doubleSize,Rn2_doubleSize,Rn1_doubleSize)(IN)              | 3D data in real space                                |
-| fwdx2k     | complex(kind=cdp),dimension(Cn3_doubleSize,Cn2_doubleSize,Cn1_doubleSize)(OUT)          | 3D data in fourier sapce                             |
+| Argument | Type(Intent)                                                                  | Meaning                 |
+| :------: | :---------------------------------------------------------------------------: | :---------------------: |
+| fwdx2    | real(kind=rdp),dimension(Rn3_doubleSize,Rn2_doubleSize,Rn1_doubleSize)(IN)    | 3D data in real space   |
+| fwdx2k   | complex(kind=cdp),dimension(Cn3_doubleSize,Cn2_doubleSize,Cn1_doubleSize)(OUT)| 3D data in fourier sapce|
 ### 2.4 backward_mpi_doubleSize(fwdx2k,fwdx2)
 Higher accuracy backward FFT from Fourier space to  real space in three dimension.
-| Argument |                      Type(Intent)                      | Meaning                                              |
-| :------: | :----------------------------------------------------: | :--------------------------------------------------- |
-| fwdx2k     | complex(kind=cdp),dimension(Cn3_doubleSize,Cn2_doubleSize,Cn1_doubleSize)(IN)           | 2D data in fourier space                             |
-| fwdx2      | real(kind=rdp),dimension(Rn3_doubleSize,Rn2_doubleSize,Rn1_doubleSize)(OUT)             | 2D data in real space                                |
+| Argument | Type(Intent)                                                                 | Meaning                        |
+| :------: | :--------------------------------------------------------------------------: | :----------------------------: |
+| fwdx2k   | complex(kind=cdp),dimension(Cn3_doubleSize,Cn2_doubleSize,Cn1_doubleSize)(IN)| 2D data in fourier space       |
+| fwdx2    | real(kind=rdp),dimension(Rn3_doubleSize,Rn2_doubleSize,Rn1_doubleSize)(OUT)  | 2D data in real space          |
 
 ## Below is an example fortran program from the mkl example folder:
 
