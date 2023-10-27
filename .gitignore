@@ -2,4 +2,5 @@
 !*.gitignore
 !*.f90
 !*.txt
+!*.md
 !*/
