@@ -1,0 +1,10 @@
+# list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+add_subdirectory(extern)
+add_subdirectory(TextUtil)
+add_subdirectory(MathBasic)
+# add_subdirectory(MathFFT)
+add_subdirectory(IO)
+# add_subdirectory(License)
+add_subdirectory(StructureGenerator)
+add_subdirectory(MaterialGenerator)
