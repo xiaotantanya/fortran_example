@@ -1,0 +1,2 @@
+/usr/bin/ar qc libl0_based.a CMakeFiles/l0_base.dir/mpi.f90.o
+/usr/bin/ranlib libl0_based.a

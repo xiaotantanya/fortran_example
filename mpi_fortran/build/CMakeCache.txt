@@ -33,8 +33,11 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 // MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Debug
 
-//No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:UNINITIALIZED=icpc
+//Enable/Disable color output during build.
+CMAKE_COLOR_MAKEFILE:BOOL=ON
+
+//CXX compiler
+CMAKE_CXX_COMPILER:STRING=/opt/intel/oneapi/compiler/2023.2.1/linux/bin/intel64/icpc
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -51,8 +54,8 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
-//No help, variable specified on the command line.
-CMAKE_C_COMPILER:UNINITIALIZED=icc
+//C compiler
+CMAKE_C_COMPILER:STRING=/opt/intel/oneapi/compiler/2023.2.1/linux/bin/intel64/icc
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -96,8 +99,16 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/tanwen/study/fortran_study/mpi_fortran/build/CMakeFiles/pkgRedirects
 
-//No help, variable specified on the command line.
-CMAKE_Fortran_COMPILER:UNINITIALIZED=ifort
+//Fortran compiler
+CMAKE_Fortran_COMPILER:STRING=/usr/bin/gfortran
+
+//A wrapper around 'ar' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_Fortran_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-11
+
+//A wrapper around 'ranlib' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_Fortran_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-11
 
 //Flags used by the Fortran compiler during all build types.
 CMAKE_Fortran_FLAGS:STRING=
@@ -106,13 +117,13 @@ CMAKE_Fortran_FLAGS:STRING=
 CMAKE_Fortran_FLAGS_DEBUG:STRING=-g
 
 //Flags used by the Fortran compiler during MINSIZEREL builds.
-CMAKE_Fortran_FLAGS_MINSIZEREL:STRING=-Os
+CMAKE_Fortran_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG -Os
 
 //Flags used by the Fortran compiler during RELEASE builds.
-CMAKE_Fortran_FLAGS_RELEASE:STRING=-O3
+CMAKE_Fortran_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -O3
 
 //Flags used by the Fortran compiler during RELWITHDEBINFO builds.
-CMAKE_Fortran_FLAGS_RELWITHDEBINFO:STRING=-O2 -g
+CMAKE_Fortran_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //User executables (bin)
 CMAKE_INSTALL_BINDIR:PATH=bin
@@ -168,8 +179,8 @@ CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
 
-//Program used to build from build.ninja files.
-CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/ninja
+//Path to a program.
+CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/gmake
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -407,10 +418,10 @@ MPI_C_LINK_FLAGS:STRING=-Xlinker --enable-new-dtags -Xlinker -rpath -Xlinker "/o
 MPI_Fortran_ADDITIONAL_INCLUDE_DIRS:STRING=
 
 //MPI compiler for Fortran
-MPI_Fortran_COMPILER:FILEPATH=/opt/intel/oneapi/mpi/2021.10.0/bin/mpiifort
+MPI_Fortran_COMPILER:FILEPATH=/opt/intel/oneapi/mpi/2021.10.0/bin/mpif90
 
 //MPI Fortran compiler wrapper include directories
-MPI_Fortran_COMPILER_INCLUDE_DIRS:STRING=/opt/intel/oneapi/mpi/2021.10.0/include;/opt/intel/oneapi/mpi/2021.10.0/include
+MPI_Fortran_COMPILER_INCLUDE_DIRS:STRING=/opt/intel/oneapi/mpi/2021.10.0/include/gfortran/11.1.0;/opt/intel/oneapi/mpi/2021.10.0/include
 
 //MPI Fortran compilation definitions
 MPI_Fortran_COMPILE_DEFINITIONS:STRING=
@@ -422,13 +433,13 @@ MPI_Fortran_COMPILE_OPTIONS:STRING=
 MPI_Fortran_F77_HEADER_DIR:PATH=/opt/intel/oneapi/mpi/2021.10.0/include
 
 //MPI Fortran libraries to link against
-MPI_Fortran_LIB_NAMES:STRING=mpifort;mpi;dl;rt;pthread
+MPI_Fortran_LIB_NAMES:STRING=mpifort;mpi;rt;pthread;dl
 
 //MPI Fortran linker flags
-MPI_Fortran_LINK_FLAGS:STRING=-Xlinker --enable-new-dtags -Xlinker -rpath -Xlinker "/opt/intel/oneapi/mpi/2021.10.0/lib/release" -Xlinker -rpath -Xlinker "/opt/intel/oneapi/mpi/2021.10.0/lib"
+MPI_Fortran_LINK_FLAGS:STRING=-Xlinker --enable-new-dtags -Xlinker -rpath -Xlinker "/opt/intel/oneapi/mpi/2021.10.0/lib/release" -Xlinker -rpath -Xlinker "/opt/intel/oneapi/mpi/2021.10.0/lib" -Xlinker --enable-new-dtags
 
 //Path to a file.
-MPI_Fortran_MODULE_DIR:PATH=/opt/intel/oneapi/mpi/2021.10.0/include
+MPI_Fortran_MODULE_DIR:PATH=/opt/intel/oneapi/mpi/2021.10.0/include/gfortran/11.1.0
 
 //Location of the dl library for MPI
 MPI_dl_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libdl.a
@@ -498,6 +509,8 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=27
 //Patch version of cmake used to create the current loaded cache
 CMAKE_CACHE_PATCH_VERSION:INTERNAL=7
+//ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
+CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=/home/tanwen/.local/lib/python3.10/site-packages/cmake/data/bin/cmake
 //Path to cpack program executable.
@@ -550,6 +563,10 @@ CMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //ADVANCED property for variable: CMAKE_Fortran_COMPILER
 CMAKE_Fortran_COMPILER-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_Fortran_COMPILER_AR
+CMAKE_Fortran_COMPILER_AR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_Fortran_COMPILER_RANLIB
+CMAKE_Fortran_COMPILER_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_Fortran_FLAGS
 CMAKE_Fortran_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_Fortran_FLAGS_DEBUG
@@ -561,7 +578,7 @@ CMAKE_Fortran_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_Fortran_FLAGS_RELWITHDEBINFO
 CMAKE_Fortran_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Name of generator.
-CMAKE_GENERATOR:INTERNAL=Ninja
+CMAKE_GENERATOR:INTERNAL=Unix Makefiles
 //Generator instance identifier.
 CMAKE_GENERATOR_INSTANCE:INTERNAL=
 //Name of generator platform.
@@ -696,7 +713,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_MPI_C:INTERNAL=[/opt/intel/oneapi/mpi/2021.10.0/lib
 //Details about finding MPI_CXX
 FIND_PACKAGE_MESSAGE_DETAILS_MPI_CXX:INTERNAL=[/opt/intel/oneapi/mpi/2021.10.0/lib/libmpicxx.so][/opt/intel/oneapi/mpi/2021.10.0/lib/libmpifort.so][/opt/intel/oneapi/mpi/2021.10.0/lib/release/libmpi.so][/usr/lib/x86_64-linux-gnu/libdl.a][/usr/lib/x86_64-linux-gnu/librt.a][/usr/lib/x86_64-linux-gnu/libpthread.a][mpicxx;mpifort;mpi;dl;rt;pthread][/opt/intel/oneapi/mpi/2021.10.0/include][TRUE][v3.1()]
 //Details about finding MPI_Fortran
-FIND_PACKAGE_MESSAGE_DETAILS_MPI_Fortran:INTERNAL=[/opt/intel/oneapi/mpi/2021.10.0/lib/libmpifort.so][/opt/intel/oneapi/mpi/2021.10.0/lib/release/libmpi.so][/usr/lib/x86_64-linux-gnu/libdl.a][/usr/lib/x86_64-linux-gnu/librt.a][/usr/lib/x86_64-linux-gnu/libpthread.a][mpifort;mpi;dl;rt;pthread][TRUE][v3.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_MPI_Fortran:INTERNAL=[/opt/intel/oneapi/mpi/2021.10.0/lib/libmpifort.so][/opt/intel/oneapi/mpi/2021.10.0/lib/release/libmpi.so][/usr/lib/x86_64-linux-gnu/librt.a][/usr/lib/x86_64-linux-gnu/libpthread.a][/usr/lib/x86_64-linux-gnu/libdl.a][mpifort;mpi;rt;pthread;dl][TRUE][v3.1()]
 //ADVANCED property for variable: MAKECOMMAND
 MAKECOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MEMORYCHECK_COMMAND
@@ -772,9 +789,9 @@ MPI_RESULT_CXX_test_mpi_normal:INTERNAL=TRUE
 //Result of TRY_COMPILE
 MPI_RESULT_C_test_mpi_normal:INTERNAL=TRUE
 //Result of TRY_COMPILE
-MPI_RESULT_Fortran_mpiver_F08_MODULE:INTERNAL=TRUE
+MPI_RESULT_Fortran_mpiver_F90_MODULE:INTERNAL=TRUE
 //Result of TRY_COMPILE
-MPI_RESULT_Fortran_test_mpi_F08_MODULE:INTERNAL=TRUE
+MPI_RESULT_Fortran_test_mpi_F08_MODULE:INTERNAL=FALSE
 //Result of TRY_COMPILE
 MPI_RESULT_Fortran_test_mpi_F77_HEADER:INTERNAL=TRUE
 //Result of TRY_COMPILE

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libopenmuprod.a CMakeFiles/openmupro.dir/mpi.f90.o
+/usr/bin/ranlib libopenmuprod.a
