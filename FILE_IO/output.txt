@@ -1,0 +1,3 @@
+ Real number x:    3.14000010    
+ Integer number y:           42
+ Text: Fortran
