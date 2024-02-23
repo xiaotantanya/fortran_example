@@ -1,0 +1,1 @@
+target_sources(test_example PRIVATE core_function.f90)
