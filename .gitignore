@@ -1,4 +1,6 @@
 *
+*/test_test-drive/build/*
+*/io_example/build/*
 !*.gitignore
 !*.f90
 !*.txt
@@ -9,5 +11,3 @@
 !*.json
 !*/external/*
 !*/test-drive/external/*
-*/test_test-drive/build/*
-*/io_example/build/*
