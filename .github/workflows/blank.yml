@@ -35,5 +35,6 @@ jobs:
           cd test_test-drive
           mkdir build
           cd build
+          cmake ..
           make
           make test
