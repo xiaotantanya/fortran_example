@@ -27,7 +27,7 @@ add_library(test-drive::test-drive ALIAS test-drive)
     # "${PROJECT_NAME}-lib"
     ${PROJECT_NAME}
     "test-drive::test-drive"
-    ${MPI_Fortran_LIBRARIES}
+    # ${MPI_Fortran_LIBRARIES}
   )
   # message(${PROJECT_NAME})
   message(${CMAKE_CURRENT_BINARY_DIR})
