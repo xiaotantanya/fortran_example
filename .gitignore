@@ -2,6 +2,7 @@
 **/test_test-drive/build/**
 **/io_example/build/**
 !*/
+!**/mpi_fortran/clibrary/**
 !*.gitignore
 !*.f90
 !*.txt
