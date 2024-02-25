@@ -1,14 +1,16 @@
 *
 **/test_test-drive/build/**
 **/io_example/build/**
+!*/
 !*.gitignore
 !*.f90
 !*.txt
 !*.md
 !*.h*
 !*.c
+!*.py
 !*.yml
 !*.dox
 !*.json
 !**/external/**
-!**/test-drive/external/**
+!**/test_test-drive/test-drive/external/**

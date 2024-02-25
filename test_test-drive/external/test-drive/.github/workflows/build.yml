@@ -1,0 +1,165 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  BUILD_DIR: _build
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        build: [meson, cmake]
+        build-type: [debug]
+        compiler: [gcc]
+        version: [10]
+
+        include:
+        - os: ubuntu-latest
+          build: fpm
+          build-type: debug
+          compiler: gcc
+          version: 10
+
+        - os: ubuntu-latest
+          build: meson
+          build-type: coverage
+          compiler: gcc
+          version: 10
+
+        - os: macos-latest
+          build: meson
+          build-type: coverage
+          compiler: gcc
+          version: 10
+
+        - os: ubuntu-latest
+          build: meson
+          build-type: debug
+          compiler: gcc
+          version: 9
+
+        - os: ubuntu-latest
+          build: meson
+          build-type: debug
+          compiler: gcc
+          version: 11
+
+        - os: ubuntu-latest
+          build: meson
+          build-type: debug
+          compiler: intel-classic
+          version: 2021.6
+
+        - os: macos-latest
+          build: meson
+          build-type: debug
+          compiler: intel-classic
+          version: 2021.6
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+        cache: 'pip'
+    
+    - name: Install python dependencies
+      if: ${{ ! contains(matrix.os, 'windows') }}
+      run: pip install -r requirements.txt
+
+    - name: Setup fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: ${{ matrix.compiler }}
+        version: ${{ matrix.version }}
+
+    - name: Setup fpm
+      if: ${{ matrix.build == 'fpm' }}
+      uses: fortran-lang/setup-fpm@v3
+      with:
+        fpm-version: 'v0.2.0'
+
+    - name: Configure build (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: >-
+        meson setup ${{ env.BUILD_DIR }}
+        --buildtype=debug
+        --prefix=$PWD/_dist
+        --libdir=lib
+        --warnlevel=0
+        -Db_coverage=${{ env.COVERAGE }}
+        ${{ env.MESON_ARGS }}
+      env:
+        COVERAGE: ${{ matrix.build-type == 'coverage' }}
+        MESON_ARGS: ${{ matrix.compiler == 'intel-classic' && '-Dfortran_link_args=-qopenmp' || '' }}
+
+    - name: Configure build (CMake)
+      if: ${{ matrix.build == 'cmake' }}
+      run: >-
+        cmake -B${{ env.BUILD_DIR }}
+        -GNinja
+        -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_INSTALL_PREFIX=$PWD/_dist
+        -DCMAKE_INSTALL_LIBDIR=lib
+
+    - name: Build library (fpm)
+      if: ${{ matrix.build == 'fpm' }}
+      run: fpm build
+
+    - name: Build library
+      if: ${{ matrix.build != 'fpm' }}
+      run: ninja -C ${{ env.BUILD_DIR }}
+
+    - name: Run unit tests (fpm)
+      if: ${{ matrix.build == 'fpm' }}
+      run: fpm test
+
+    - name: Run unit tests (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: meson test -C ${{ env.BUILD_DIR }} --print-errorlogs --no-rebuild --num-processes 2 -t 2
+
+    - name: Run unit tests (ctest)
+      if: ${{ matrix.build == 'cmake' }}
+      run: ctest --output-on-failure --parallel 2
+      working-directory: ${{ env.BUILD_DIR }}
+
+    - name: Create coverage report
+      if: ${{ matrix.build == 'meson' && matrix.build-type == 'coverage' }}
+      run: ninja -C ${{ env.BUILD_DIR }} coverage
+
+    - name: Install project
+      if: ${{ matrix.build != 'fpm' }}
+      run: |
+        ninja -C ${{ env.BUILD_DIR }} install
+        echo "PROJECT_PREFIX=$PWD/_dist" >> $GITHUB_ENV
+
+    - name: Create package
+      if: ${{ matrix.build == 'meson' }}
+      run: |
+        tar cvf ${{ env.OUTPUT }} _dist
+        xz -T0 ${{ env.OUTPUT }}
+        echo "PROJECT_OUTPUT=${{ env.OUTPUT }}.xz" >> $GITHUB_ENV
+      env:
+        OUTPUT: test-drive-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.os }}.tar
+
+    - name: Upload package
+      if: ${{ matrix.build == 'meson' && matrix.build-type != 'coverage' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.PROJECT_OUTPUT }}
+        path: ${{ env.PROJECT_OUTPUT }}
+
+    - name: Upload coverage report
+      if: ${{ matrix.build == 'meson' && matrix.build-type == 'coverage' }}
+      uses: codecov/codecov-action@v3
