@@ -1,7 +1,14 @@
 *
+**/test_test-drive/build/**
+**/io_example/build/**
 !*.gitignore
 !*.f90
 !*.txt
 !*.md
-!*/
-*/test_test-driv/build/*
+!*.h*
+!*.c
+!*.yml
+!*.dox
+!*.json
+!**/external/**
+!**/test-drive/external/**
