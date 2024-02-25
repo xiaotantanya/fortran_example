@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtest-drive.a "CMakeFiles/test-drive-lib.dir/src/testdrive.F90.o" "CMakeFiles/test-drive-lib.dir/src/testdrive_version.f90.o"
-/usr/bin/ranlib libtest-drive.a
