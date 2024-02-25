@@ -6,6 +6,8 @@ project(
     LANGUAGES Fortran C CXX
 )
 include(CTest)
+find_package(MPI REQUIRED)
+include_directories(${MPI_Fortran_INCLUDE_PATH})
 set(CMAKE_GENERATOR "Ninja")
 add_library(test_example STATIC)
 

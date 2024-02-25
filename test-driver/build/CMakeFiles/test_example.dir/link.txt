@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtest_example.a "CMakeFiles/test_example.dir/core-code/core_function.f90.o"
-/usr/bin/ranlib libtest_example.a

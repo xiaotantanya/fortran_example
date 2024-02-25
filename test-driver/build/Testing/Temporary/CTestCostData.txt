@@ -1,8 +1,0 @@
-test-drive/all-tests 2 0.00238037
-test-drive/check 2 0.000560682
-test-drive/select 2 0.000465258
-test_example/suite1 0 0
-test_example/suite2 0 0
----
-test_example/suite1
-test_example/suite2

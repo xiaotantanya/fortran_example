@@ -3,10 +3,19 @@ program tester
   use testdrive, only : run_testsuite, new_testsuite, testsuite_type
   use test_suite1, only : collect_suite1
   use test_suite2, only : collect_suite2
+  use mpi
   implicit none
+  integer :: ierr, rank, size_t, i
+  integer, parameter :: array_size = 10
+  integer, dimension(array_size) :: sendbuf, recvbuf
+  integer :: tag = 123
   integer :: stat, is
   type(testsuite_type), allocatable :: testsuites(:)
   character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+  call MPI_Init(ierr)
+  call MPI_Comm_size(MPI_COMM_WORLD, size_t, ierr)
+  call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
 
   stat = 0
 
