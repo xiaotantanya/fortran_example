@@ -1,0 +1,1 @@
+/usr/bin/f95 -O2 -g -DNDEBUG "CMakeFiles/test_example-tester.dir/main.f90.o" "CMakeFiles/test_example-tester.dir/test_suite1.f90.o" "CMakeFiles/test_example-tester.dir/test_suite2.f90.o" -o test_example-tester  ../libtest_example.a ../test-drive/libtest-drive.a 

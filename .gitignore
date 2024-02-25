@@ -4,4 +4,10 @@
 !*.txt
 !*.md
 !*/
-*/test_test-driv/build/*
+!*.h*
+!*.c
+!*.json
+!*/external/*
+!*/test-drive/external/*
+*/test_test-drive/build/*
+*/io_example/build/*
