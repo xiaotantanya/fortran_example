@@ -1,6 +1,5 @@
 *
-**/test_test-drive/build/**
-**/io_example/build/**
+
 !*/
 !**/mpi_fortran/clibrary/**
 !*.gitignore
@@ -15,3 +14,5 @@
 !*.json
 !**/external/**
 !**/test_test-drive/test-drive/external/**
+**/test_test-drive/build/
+**/io_example/build/**
