@@ -15,4 +15,5 @@
 !**/external/**
 !**/test_test-drive/test-drive/external/**
 **/test_test-drive/build/
-**/io_example/build/**
+**/io_example/build/
+**/build/

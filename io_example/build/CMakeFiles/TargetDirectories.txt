@@ -1,3 +1,0 @@
-/home/tanwen/study/fortran_study/io_example/build/CMakeFiles/test.dir
-/home/tanwen/study/fortran_study/io_example/build/CMakeFiles/edit_cache.dir
-/home/tanwen/study/fortran_study/io_example/build/CMakeFiles/rebuild_cache.dir

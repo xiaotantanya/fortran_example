@@ -1,2 +1,0 @@
-/usr/bin/ar qc libfsond.a CMakeFiles/fson.dir/fson.f90.o CMakeFiles/fson.dir/fson_path_m.f90.o CMakeFiles/fson.dir/fson_string_m.f90.o CMakeFiles/fson.dir/fson_value_m.f90.o
-/usr/bin/ranlib libfsond.a
