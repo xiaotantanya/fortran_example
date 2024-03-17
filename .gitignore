@@ -12,6 +12,7 @@
 !*.yml
 !*.dox
 !*.json
+!*.in
 !**/external/**
 !**/test_test-drive/test-drive/external/**
 **/test_test-drive/build/
