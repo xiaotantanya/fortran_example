@@ -21,14 +21,15 @@ program ReadFileAndCountCommas
       write(*,*) j
       do k = i, j
         
-      ! 找到 "sigappl_v" 后的逗号数量
-      i = index(line, 'sigappl_v')
-      if (i > 0) then
-        do while (line(i:i) == ',')
-          commaCountSigappl = commaCountSigappl + 1
-          i = i + 1
-        end do
-      end if
+        ! 找到 "sigappl_v" 后的逗号数量
+        i = index(line, 'sigappl_v')
+        if (i > 0) then
+          do while (line(i:i) == ',')
+            commaCountSigappl = commaCountSigappl + 1
+            i = i + 1
+          end do
+        end if
+      end do
       ! 输出逗号的数量
       print *, 'eposhom_v 后的逗号数量为:', commaCountEposhom
       print *, 'sigappl_v 后的逗号数量为:', commaCountSigappl
