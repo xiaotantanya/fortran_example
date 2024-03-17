@@ -8,4 +8,4 @@ project(dimension_subroutine_test
 # include(CTest)
 
 add_executable(${PROJECT_NAME} dimension_subroutine.f90)
-add_test(NAME ${PROJECT_NAME}_test ${PROJECT_NAME})
+add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME})
