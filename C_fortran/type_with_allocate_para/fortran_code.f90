@@ -1,18 +1,13 @@
-subroutine my_fortran_function(s)
+subroutine my_fortran_function(tt)
+   use iso_c_binding
    implicit none
-   type :: my_type
-      integer :: nrows
-      integer :: ncols
-      real, allocatable :: data(:,:)
-   end type my_type
 
-   type(my_type), intent(inout) :: s
+   integer(kind=c_int), dimension(10) :: tt
 
+   ! 修改一些数据
+   tt(1) = 3
    ! 在这里进行一些操作，例如打印数据
-   print *, "Number of rows:", s%nrows
-   print *, "Number of columns:", s%ncols
+   write(*,*) tt
 
-   ! 释放内存
-   ! deallocate(s%data)
   end subroutine my_fortran_function
   
